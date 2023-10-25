@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { TranslateController } from "./translate/translate.controller";
 
 export class Server {
@@ -10,11 +11,12 @@ export class Server {
 
   start() {
     // Middlewares
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
     // Routes
-    this.app.post("/", this.translateController.translate);
+    this.app.post("/api/v1/translate", this.translateController.translate);
 
     this.app.listen(this.port, () => {
       console.log(`Server running on port ${this.port}`);
